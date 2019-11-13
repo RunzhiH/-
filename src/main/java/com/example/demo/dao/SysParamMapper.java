@@ -3,6 +3,8 @@ package com.example.demo.dao;
 import com.example.demo.entity.SysParam;
 import com.example.demo.entity.SysParamExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface SysParamMapper {
@@ -72,4 +74,6 @@ public interface SysParamMapper {
 	 * @mbg.generated
 	 */
 	int updateByPrimaryKey(SysParam record);
+
+	Map<String, String> getSysParam();
 }
