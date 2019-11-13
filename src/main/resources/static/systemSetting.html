@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>系统设置</title>
+</head>
+<body>
+	<div>
+		<p>
+			<span>支付金额：￥</span><input type="number" id="pay_price"
+				placeholder="请输入金额">
+		</p>
+		<p>
+			<span>直推奖励：</span><input type="number" id="direct_reward" max="100"
+				min="0">%
+		</p>
+		<p>
+			<span>间推奖励：</span><input type="number" id="indirect_reward" max="100"
+				min="0">%
+		</p>
+		<button type="button" onclick="submit()">确定</button>
+	</div>
+</body>
+<script type="text/javascript" src="./jquery-2.1.1.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		
+		//getSysParam();
+		
+	});
+	function getSysParam(){
+		$.ajax({
+			url:"/sysParam/getSysParam",
+			success: function (res){
+				if(res.status==200){
+					var sysParam = res.context; 
+					 $("#pay_price").val(sysParam.pay_price);
+					 $("#direct_reward").val(sysParam.direct_reward);
+					 $("#indirect_reward").val(sysParam.direct_reward);
+				}
+			},
+			error:  function(xhr){
+				alert(xhr.message);
+			}
+		});
+	}
+	
+	function submit(){
+		$.ajax({
+			url:"/sysParam/updateSysParam",
+			data : {
+				pay_price : $("#pay_price").val(),
+				direct_reward : $("#direct_reward").val(),
+				indirect_reward : $("#indirect_reward").val()
+			},
+			success: function (res){
+				if(res.status==200){
+					alert("修改成功",function(){
+						window.location.reload();
+					})
+				}
+			},
+			error:  function(xhr){
+				alert(xhr.message);
+			}
+		});
+	}
+</script>
+</html>

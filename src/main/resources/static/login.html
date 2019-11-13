@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>登录页面</title>
+</head>
+<body>
+	<h2>自定义登录页面</h2>
+	<form action="/login/doLogin" method="post">
+		<table>
+			<tr>
+				<td>用户名：</td>
+				<td><input type="text" name="username"></td>
+			</tr>
+			<tr>
+				<td>密码：</td>
+				<td><input type="password" name="password"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><button type="submit">登录</button></td>
+			</tr>
+		</table>
+	</form>
+	<h2>自定义登录页面</h2>
+	<form action="/login/doLoginByPhone" method="post">
+		<table>
+			<tr>
+				<td>用户名：</td>
+				<td><input id="" type="text" name="phone"></td>
+			</tr>
+			<tr>
+				<td>密码：</td>
+				<td><input type="text" name="code"></td>
+				<td><input type="button" onclick="sendSMS()" value="验证码"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><button type="submit">登录</button></td>
+			</tr>
+		</table>
+	</form>
+	<script type="text/javascript" src="./jquery-2.1.1.min.js"></script>
+	<script type="text/javascript">
+function sendSMS(){
+	$.ajax({
+		url:"/login/sendSMSByLogin",
+		data : {
+			phone : $("#phone").val()
+		},
+		success: function (res){
+			alert(res);
+		},
+		error:  function(xhr){
+			alert(xhr);
+		}
+	});
+}
+
+</script>
+</body>
+</html>

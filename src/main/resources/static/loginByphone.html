@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>登录页面</title>
+</head>
+<body>
+	<h2>自定义登录页面</h2>
+	<form action="/login/doLoginByPhone" method="post">
+		<table>
+			<tr>
+				<td>用户名：</td>
+				<td><input id="" type="text" name="phone"></td>
+			</tr>
+			<tr>
+				<td>密码：</td>
+				<td><input type="code" name="code"></td><td><input type="button" onclick="sendSMS()"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><button type="submit">登录</button></td>
+			</tr>
+		</table>
+	</form>
+</body>
+<script type="text/javascript" src="./jquery-2.1.1.min.js"></script>
+<script type="text/javascript">
+function sendSMS(){
+	$.ajax({
+		url:"/login/sendSMSByLogin",
+		data : {
+			phone : $("#phone").val();
+		},
+		success: function (res){
+			alert(res);
+		},
+		error:  function(xhr){
+			alert(res);
+		}
+	})
+}
+</script>
+</html>
