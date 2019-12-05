@@ -24,9 +24,6 @@ public class MyAuthenctiationSuccessHandler extends SimpleUrlAuthenticationSucce
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Autowired
-	private ObjectMapper objectMapper;
-
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
@@ -36,7 +33,7 @@ public class MyAuthenctiationSuccessHandler extends SimpleUrlAuthenticationSucce
 		response.setContentType("application/json;charset=UTF-8");
 		RequestCache cache = new HttpSessionRequestCache();
 		SavedRequest savedRequest = cache.getRequest(request, response);
-		String url = "/index.html";
+		String url = "/wx/html/mine.html";
 		if (savedRequest != null) {
 			url = savedRequest.getRedirectUrl();
 		}

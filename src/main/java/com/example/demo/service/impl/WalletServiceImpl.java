@@ -43,8 +43,7 @@ public class WalletServiceImpl implements WalletService {
 			}
 		}
 	}
- 
-	
+
 	@Override
 	public Map<String, String> getWalletInfo(String user_id) {
 		// TODO Auto-generated method stub
@@ -63,6 +62,7 @@ public class WalletServiceImpl implements WalletService {
 		return walletMapper.updateWalletByWithdrawal(record_id);
 	}
 
+	@Override
 	public int withdrawalToAccount(String record_id) {
 		// TODO Auto-generated method stub
 		// 修改状态
@@ -74,29 +74,41 @@ public class WalletServiceImpl implements WalletService {
 		//
 		WithdrawalRecord withdrawal_record = withdrawalRecordMapper.selectByPrimaryKey(record_id);
 		String record_type = String.valueOf(withdrawal_record.getRecordType());
-		Map<String, String> resultMap= null;
+		Map<String, String> resultMap = null;
 		if ("1".equals(record_type)) {
 			// 提现到支付宝
-			//resultMap= payServiceImpl.alipay2User(bizNo, amount, account, userName);
+			// resultMap= payServiceImpl.alipay2User(bizNo, amount, account, userName);
 		} else if ("2".equals(record_type)) {
 			// 提现到微信
-			//resultMap = payServiceImpl.weixinWithdraw(openId, ip, partner_trade_no, money, desc);
+			// resultMap = payServiceImpl.weixinWithdraw(openId, ip, partner_trade_no,
+			// money, desc);
 		}
-		if(true) {
+		if (true) {
 			// 修改状态
 			withdrawalRecord.setRecordStatus(1);
 			withdrawalRecordMapper.updateByPrimaryKeySelective(withdrawalRecord);
-			
-			
-			String change_record_id=  DynamicCodeUtil.generateCode(DynamicCodeUtil.TYPE_ALL_MIXED, 32, null);
-			int num = walletChangeRecordMapper.insertRecordForWithdrawal(change_record_id,record_id);
+
+			String change_record_id = DynamicCodeUtil.generateCode(DynamicCodeUtil.TYPE_ALL_MIXED, 32, null);
+			int num = walletChangeRecordMapper.insertRecordForWithdrawal(change_record_id, record_id);
 			// 更新钱包余额
-			if(num>0) {
+			if (num > 0) {
 				walletMapper.updateWalletByWithdrawal(change_record_id);
 			}
-			
+
 		}
 		return 0;
+	}
+
+	@Override
+	public List<Map<String, String>> getDrawlRcord(Map<String, String> param) {
+		// TODO Auto-generated method stub
+		return walletChangeRecordMapper.getDrawlRcord(param);
+	}
+
+	@Override
+	public Map<String, String> getDrawlRrcordTotal(Map<String, String> param) {
+		// TODO Auto-generated method stub
+		return walletChangeRecordMapper.getDrawlRrcordTotal(param);
 	}
 
 }

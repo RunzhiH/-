@@ -3,6 +3,8 @@ package com.example.demo.dao;
 import com.example.demo.entity.RechargeRecord;
 import com.example.demo.entity.RechargeRecordExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface RechargeRecordMapper {
@@ -73,4 +75,8 @@ public interface RechargeRecordMapper {
 	 * @mbg.generated
 	 */
 	int updateByPrimaryKey(RechargeRecord record);
+
+	List<Map<String, String>> getRechargeRecordList(Map<String, String> param);
+
+	Map<String, String> getRechargeRrcordTotal(Map<String, String> param);
 }

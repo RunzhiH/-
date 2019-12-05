@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -53,7 +54,9 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		UserInfo user = new UserInfo();
 		user.setLevel(0);
-		user.setPassword(new BCryptPasswordEncoder().encode(password));
+		if(StringUtils.isNotBlank(password)) {
+			user.setPassword(new BCryptPasswordEncoder().encode(password));
+		}
 		user.setPhone(phone);
 		user.setUserId(DynamicCodeUtil.generateCode(DynamicCodeUtil.TYPE_ALL_MIXED, 32, null));
 		user.setCreateTime(new Date());
@@ -93,5 +96,9 @@ public class UserServiceImpl implements UserService {
 		user.setUserName(user_name);
 		return userInfoMapper.updateByPrimaryKeySelective(user);
 	}
-
+	
+	public static void main(String[] args) {
+	 	String str=  new BCryptPasswordEncoder().encode("111111");
+	 	System.out.println(str);
+	}
 }

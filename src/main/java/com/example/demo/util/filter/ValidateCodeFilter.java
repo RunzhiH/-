@@ -48,21 +48,28 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
 			FilterChain filterChain) throws ServletException, IOException {
-		if (httpServletRequest.equals("/authentication/mobile") && httpServletRequest.getMethod().equals("post")) {
+		if (httpServletRequest.equals("/login/loginByPhoneCode") && httpServletRequest.getMethod().equals("post")) {
 			try {
-				validate(new ServletWebRequest(httpServletRequest));
+				validateCode(new ServletWebRequest(httpServletRequest));
 
 			} catch (ValidateCodeException e) {
 				authenticationFailureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, e);
 				return;
 			}
+//		} else if (httpServletRequest.equals("/login/doLogin") && httpServletRequest.getMethod().equals("post")) {
+//			try {
+//				validate(new ServletWebRequest(httpServletRequest));
+//			} catch (ValidateCodeException e) {
+//				authenticationFailureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, e);
+//				return;
+//			}
 		}
 		filterChain.doFilter(httpServletRequest, httpServletResponse); // 如果不是登录请求，直接调用后面的过滤器链
 	}
 
-	private void validate(ServletWebRequest request) throws ServletRequestBindingException {
+	private void validateCode(ServletWebRequest request) throws ServletRequestBindingException {
 		ValidateCode codeInSession = (ValidateCode) sessionStrategy.getAttribute(request, SESSION_KEY);
-		String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "smsCode");
+		String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "code");
 		if (!StringUtils.isNotBlank(codeInRequest)) {
 			throw new ValidateCodeException("验证码的值不能为空！");
 		}
@@ -77,5 +84,12 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 			throw new ValidateCodeException("验证码不正确！");
 		}
 		sessionStrategy.removeAttribute(request, SESSION_KEY);
+	}
+
+	private void validate(ServletWebRequest request) throws ServletRequestBindingException {
+		String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "password");
+		if (!StringUtils.isNotBlank(codeInRequest)) {
+			throw new ValidateCodeException("密码的值不能为空！");
+		}
 	}
 }

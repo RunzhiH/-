@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<title>充值记录</title>
+<link rel="stylesheet" type="text/css" href="/wx/css/record.css">
+<link rel="stylesheet" type="text/css" href="/wx/css/base.css">
+</head>
+<body>
+	<div class="backgroud">
+		<div class="header">
+			<div class="back_icon" onclick="goBack()">
+				<img alt="" src="/wx/image/mine/mine_ic_back_black@2x.png">
+			</div>
+			<p class="header_text">充值记录</p>
+		</div>
+		<div class="note note_end"></div>
+		<div>
+			<div class="note note_next">
+				<div class="note_header">
+					<div class="toleft prev_note">
+						<p>&lt;上月账单</p>
+					</div>
+					<div class="toright next_note">
+						<p>下月账单&gt;</p>
+					</div>
+					<div class="center_line"></div>
+					<div class="price_div">
+						<p style="color: #bbbbbb;">
+							<span class="month">10</span>月账单(元)
+						</p>
+						<div>
+							<p class="price month_price">5672.35</p>
+						</div>
+					</div>
+
+				</div>
+				<div class="note_body">
+					<div class="note_ul">
+						<div class="f_l">
+							<p class="note_text">2019-10-12</p>
+						</div>
+						<div class="f_r">
+							<p class="note_text">1587元</p>
+						</div>
+					</div>
+					<div class="note_ul">
+						<div class="f_l">
+							<p class="note_text">2019-10-12</p>
+						</div>
+						<div class="f_r">
+							<p class="note_text">1587元</p>
+						</div>
+					</div>
+					<div class="note_ul">
+						<div class="f_l">
+							<p class="note_text">2019-10-12</p>
+						</div>
+						<div class="f_r">
+							<p class="note_text">1587元</p>
+						</div>
+					</div>
+				</div>
+				<div class="more_btn backgroud_gradient">
+					<p>点击更多</p>
+				</div>
+			</div>
+
+			<div class="note" id="defult_note">
+				<div class="note_header">
+					<div class="toleft prev_note">
+						<p>&lt;上月账单</p>
+					</div>
+					<div class="toright next_note">
+						<p>下月账单&gt;</p>
+					</div>
+					<div class="center_line"></div>
+					<div class="price_div">
+						<p style="color: #bbbbbb;">
+							<span class="month">10</span>月账单(元)
+						</p>
+						<div>
+							<p class="price month_price">5672.35</p>
+						</div>
+					</div>
+
+				</div>
+				<div class="note_body">
+					<div class="note_ul">
+						<div class="f_l">
+							<p class="note_text">2019-10-12</p>
+						</div>
+						<div class="f_r">
+							<p class="note_text">1587元</p>
+						</div>
+					</div>
+					<div class="note_ul">
+						<div class="f_l">
+							<p class="note_text">2019-10-12</p>
+						</div>
+						<div class="f_r">
+							<p class="note_text">1587元</p>
+						</div>
+					</div>
+					<div class="note_ul">
+						<div class="f_l">
+							<p class="note_text">2019-10-12</p>
+						</div>
+						<div class="f_r">
+							<p class="note_text">1587元</p>
+						</div>
+					</div>
+				</div>
+				<div class="more_btn backgroud_gradient">
+					<p>点击更多</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" id="month_value">
+	<input type="hidden" id="year_value">
+</body>
+<script type="text/javascript" src="/Plugin/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="/wx/js/common.js"></script>
+<script type="text/javascript" src="/wx/js/record.js"></script>
+<script type="text/javascript">
+	$(function() {
+		var year = new Date().getFullYear();
+		$("#year_value").val(year);
+
+		var month = new Date().getMonth() + 1;
+		getRechargeRrcord(month);
+		$("#month_value").val(month);
+
+	})
+	$(document).ready(function() {
+	$(".next_note").click(function() {
+		var month = $("#month_value").val();
+
+		++month;
+
+		$("#month_value").val(month);
+		getRechargeRrcord(month, this, function(e) {
+			console.log(e);
+			var note = $(e).parent().parent();
+			$(note).animate({
+				left : "100px"
+			}, function() {
+				$(note).fadeOut();
+				$(note).siblings().fadeIn();
+				$(note).siblings().removeClass("note_next");
+				$(note).addClass("note_next");
+				$(note).css("left", "");
+				$(note).fadeIn();
+			});
+		});
+	});
+	$(".prev_note").click(function() {
+		var month = $("#month_value").val();
+		--month;
+
+		$("#month_value").val(month);
+		getRechargeRrcord(month, this, function(e) {
+			console.log(e);
+			var note = $(e).parent().parent();
+			$(note).animate({
+				left : "-100px"
+			}, function() {
+				$(note).fadeOut();
+				$(note).siblings().fadeIn();
+				$(note).siblings().removeClass("note_next");
+				$(note).addClass("note_next");
+				$(note).css("left", "");
+				$(note).fadeIn();
+			});
+		});
+
+	});
+})
+</script>
+</html>

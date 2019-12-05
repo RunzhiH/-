@@ -42,10 +42,11 @@ import com.example.demo.util.PropertyUtil;
 @Service("PayServiceImpl")
 public class PayServiceImpl implements PayService {
 	@Override
-	public ModelAndView createAlipay(String order_no, BigDecimal amount, String alipayNotify, String subject,
+	public JSONObject createAlipay(String order_no, BigDecimal amount, String alipayNotify, String subject,
 			String wap_name, HttpServletResponse response, HttpServletRequest request) throws Exception {
 		String form = "";
-		ModelAndView modelAndView = new ModelAndView();
+		//ModelAndView modelAndView = new ModelAndView();
+		JSONObject result = new JSONObject();
 		// 生成一笔预付订单流水
 		String trad_no = DynamicCodeUtil.generateCode(DynamicCodeUtil.TYPE_NUM_UPPER, 16, null);// 订单流水号
 
@@ -72,25 +73,21 @@ public class PayServiceImpl implements PayService {
 			for (StackTraceElement s : trace) {
 				sOut += "\tat " + s + "\r\n";
 			}
-			modelAndView.addObject("msg", sOut + "alipay_url:" + AliPayConfig.alipay_url);
-			modelAndView.addObject("status", "fail");
-			modelAndView.setViewName("");// 失败页
-
-			return modelAndView;
+			result.put("msg", sOut + "alipay_url:" + AliPayConfig.alipay_url);
+			result.put("status", "fail");
+			return result;
 		}
 		response.setContentType("text/html;charset=" + AliPayConfig.alipay_charset);
 		response.getWriter().write(form);// 直接将完整的表单html输出到页面
 		response.getWriter().flush();
 		response.getWriter().close();
-		modelAndView.addObject("status", "success");
-		modelAndView.setViewName("");// 失败页
-		return modelAndView;
+		result.put("status", "success");
+		return result;
 	}
 
 	@Override
-	public ModelAndView createWxPay(String order_no, BigDecimal amount, String wxPayNotify, String subject,
+	public  JSONObject createWxPay(String order_no, BigDecimal amount, String wxPayNotify, String subject,
 			String wap_name, HttpServletResponse response, HttpServletRequest request) throws Exception {
-		ModelAndView modelAndView = new ModelAndView();
 		String APPID = WxPayConfig.wechat_app_id;
 		String MERID = WxPayConfig.wechat_mch_id;
 		String SIGNKEY = WxPayConfig.wechat_key;
@@ -148,16 +145,16 @@ public class PayServiceImpl implements PayService {
 			} else {
 				result.put("msg", "统一支付接口获取预支付订单出错");
 				result.put("status", "fail");
-				modelAndView.addAllObjects(result);
-				modelAndView.setViewName("");// 失败页面
-				return modelAndView;
+				//modelAndView.addAllObjects(result);
+				//modelAndView.setViewName("");// 失败页面
+				return result;
 			}
 		} catch (Exception e) {
 			result.put("msg", "统一支付接口获取预支付订单出错");
 			result.put("status", "fail");
-			modelAndView.addAllObjects(result);
-			modelAndView.setViewName("");// 失败页面
-			return modelAndView;
+			//modelAndView.addAllObjects(result);
+			//modelAndView.setViewName("");// 失败页面
+			return result;
 		}
 		result.put("mwebUrl", mweb_url);
 
@@ -165,9 +162,9 @@ public class PayServiceImpl implements PayService {
 
 		result.put("msg", "success");
 		result.put("status", "success");
-		modelAndView.addAllObjects(result);
-		modelAndView.setViewName("");// 成功页面
-		return modelAndView;
+		//modelAndView.addAllObjects(result);
+		//modelAndView.setViewName("");// 成功页面
+		return result;
 	}
 
 	public Map<String, String> alipay2User(String bizNo, String amount, String account, String userName) {

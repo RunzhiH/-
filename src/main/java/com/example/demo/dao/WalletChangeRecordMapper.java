@@ -3,6 +3,8 @@ package com.example.demo.dao;
 import com.example.demo.entity.WalletChangeRecord;
 import com.example.demo.entity.WalletChangeRecordExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface WalletChangeRecordMapper {
@@ -84,4 +86,8 @@ public interface WalletChangeRecordMapper {
 	int insertRecordForDirectRechargeReward(String record_id, String change_record_id);
 
 	int insertRecordForWithdrawal(String change_record_id, String record_id);
+
+	List<Map<String, String>> getDrawlRcord(Map<String, String> param);
+
+	Map<String, String> getDrawlRrcordTotal(Map<String, String> param);
 }

@@ -43,12 +43,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		ValidateCodeFilter smsCodeFilter = new ValidateCodeFilter();
 
 		http.authorizeRequests()// 定义哪些URL需要被保护、哪些不需要被保护
-				.antMatchers("/login.html", "/login/*", "/loginByphone.html", "/login", "/code/*", "/test/**").permitAll()
+				.antMatchers("/login.html", "/login/*", "/loginByphone.html", "/login", "/code/*", "/test/**","/wx/**","/Plugin/**").permitAll()
 				.anyRequest()// 任何请求,登录后可以访问
 				.authenticated().and().addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class) // 加载用户名密码过滤器的前面
 				.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class) // 加载用户名密码过滤器的前面
 				// 定义哪些URL需要被保护、哪些不需要被保护
-				.formLogin().loginPage("/login.html") // 定义当需要用户登录时候，转到的登录页面。
+				.formLogin().loginPage("/wx/html/login.html") // 定义当需要用户登录时候，转到的登录页面。
 				.loginProcessingUrl("/login/doLogin").successHandler(successHandler) // 自定义登录成功处理
 				.failureHandler(failureHandler).permitAll()
 				// 以下短信登录认证的配置

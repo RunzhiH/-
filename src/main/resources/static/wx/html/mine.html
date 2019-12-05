@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<title>个人中心</title>
+<link rel="stylesheet" type="text/css" href="/wx/css/base.css">
+<link rel="stylesheet" type="text/css" href="/wx/css/mine.css">
+</head>
+<body>
+	<div class="">
+		<div class="header">
+			<div class="back_icon" onclick="goBack()">
+				<img alt="" src="/wx/image/mine/mine_ic_back_black@2x.png">
+			</div>
+			<p class="header_text">个人中心</p>
+		</div>
+		<div class="header_photo">
+			<img class="f_l" alt="" src="/wx/image/mine/mine_ic_girl@2x.png"><span
+				class="user_name">张琳</span>
+		</div>
+		<div class="balance_panel">
+			<div class="">
+				<div class="balance_div">
+					<p>账户余额(元)</p>
+					<p class="balance">121212.25</p>
+				</div>
+				<div class="total_div">
+					<div class="f_l total">
+						<p class="total_header">累计收益(元)</p>
+						<p class="total_balance">121212.25</p>
+					</div>
+					<div class="f_r total">
+						<p class="total_header">未返金额(元)</p>
+						<p class="total_balance">121212.25</p>
+					</div>
+				</div>
+			</div>
+			<div class="balance_foot">
+				<div class="f_l" onclick="goto('/wx/html/recharge.html')">
+					<img class="f_l" alt="" src="/wx/image/mine/mine_ic_pay@2x.png">
+					充值
+				</div>
+				<div class="f_r" style="padding-right: 13vw;"
+					onclick="goto('/wx/html/drawlRecord.html')">
+					<img class="f_l" alt="" src="/wx/image/mine/mine_ic_tixian@2x.png">
+					提现
+				</div>
+			</div>
+		</div>
+
+		<div>
+			<div class="f_l menu" onclick="goto('/wx/html/rechargeRecord.html')">
+				<img alt="" src="/wx/image/mine/mine_ic_czjl@2x.png">
+				<p>充值记录</p>
+			</div>
+			<div class="f_l menu" onclick="goto('/wx/html/drawlRecord.html')">
+				<img alt="" src="/wx/image/mine/mine_ic_txjl@2x.png">
+				<p>提现记录</p>
+			</div>
+			<div class="f_l menu">
+				<img alt="" src="/wx/image/mine/mine_ic_fxjl@2x.png">
+				<p>分享奖励</p>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="/Plugin/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="/wx/js/common.js"></script>
+</html>

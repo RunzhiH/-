@@ -286,7 +286,7 @@
 		  NOW() create_time,
 		  0 balance 
 		FROM
-		  USER 
+		  user_info 
 		WHERE phone = #{phone} 
 	</insert>
 	<select id="getWalletChangeRcord" parameterType="String" resultType="Map">

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<title>忘记密码</title>
+<link rel="stylesheet" type="text/css" href="/wx/css/login.css">
+<link rel="stylesheet" type="text/css" href="/wx/css/base.css">
+</head>
+<body>
+	<div class="backgroud">
+		<div class="login_photo_div">
+			<img class="login_img" alt="" src="/wx/image/logo3.png">
+		</div>
+		<div class="form_div">
+			<div class="login_form" style="height: 43vh;">
+				<p class="form_titel">
+					<span class="p_color">登录</span>/注册
+				</p>
+				<form id="pwd_form" action="/login/updatePassword">
+					<div>
+						<p class="p_color login_p">账号</p>
+					</div>
+					<div class="input_line">
+						<input id="phone" type="text" name="phone">
+					</div>
+					<div>
+						<p class="p_color login_p">验证码</p>
+					</div>
+					<div class="input_line ">
+						<input type="text" name="code"><input
+							class="sendSMS p_color" type="button" onclick="sendSMS(this)"
+							value="获取">
+					</div>
+					<div>
+						<p class="p_color login_p">密码</p>
+					</div>
+					<div class="input_line ">
+						<input type="password" name="password" class="password"><img
+							class="eye" alt=""
+							src="/wx/image/register/register_ic_biyan@2x.png" status="0"
+							onclick="showPwd(this)">
+					</div>
+				</form>
+				<div class="submit_div">
+					<button type="submit" id="login_submit">确认</button>
+				</div>
+			</div>
+			<div style="float: left; padding-top: 1vh;">
+				<p onclick="goto('/wx/html/login.html')">已有账号?去登陆</p>
+			</div>
+		</div>
+
+		<div class="read_me">
+			<p>
+				登录即表明同意<span class="p_color">《用户协议》</span>
+			</p>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="/Plugin/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="/wx/js/common.js"></script>
+	<script type="text/javascript" src="/wx/js/login.js"></script>
+	<script type="text/javascript">
+
+	$(function(){
+		$("#login_submit").click(function(){
+			$("#pwd_form").submit(function(res){
+				if(res.status==200){
+					alert("修改成功",function(){
+						window.location.href="/wx/html/login.html";
+					});
+				}else{
+					alert(res.message);
+				}
+			});
+		});
+	})
+	</script>
+</body>
+</html>

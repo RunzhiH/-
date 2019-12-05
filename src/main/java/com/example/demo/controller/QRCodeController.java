@@ -17,13 +17,13 @@ import com.google.zxing.common.BitMatrix;
 public class QRCodeController {
 	@RequestMapping("/getQRCode")
 	public void getQRCode(HttpServletRequest request, HttpServletResponse response) {
-		String url = request.getParameter("url");
+		String context = request.getParameter("context");
 
 		// String url = "http://www.baidu.com";
 		// 配置生成路径
 		// String path = "d:测试二维码/photo/";
 		// 生成文件名称
-		BitMatrix qRcodeImg = QrCodeUtil.createQrCode(url, response);
+		BitMatrix qRcodeImg = QrCodeUtil.createQrCode(context, response);
 		try {
 			MatrixToImageWriter.writeToStream(qRcodeImg, "png", response.getOutputStream());
 		} catch (IOException e) {

@@ -32,9 +32,13 @@ public class SysParamController {
 		}
 		return msg;
 	}
+
 	@RequestMapping("getSysParam")
-	public Map<String, Object> getSysParam(){
-		Map<String, String> sysParam=sysParamServiceImpl.getSysParam();
-		return null;
+	public Map<String, Object> getSysParam() {
+		Map<String, String> sysParam = sysParamServiceImpl.getSysParam();
+		Map<String, Object> msg = new HashMap<String, Object>();
+		msg.put("context", sysParam);
+		msg.put("status", 200);
+		return msg;
 	}
 }

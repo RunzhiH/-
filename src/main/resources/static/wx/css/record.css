@@ -1,0 +1,124 @@
+.header {
+	padding-top: 3vh;
+}
+
+.back_icon {
+	height: 3vh;
+	float: left;
+	position: absolute;
+	margin-top: 1.3vh;
+}
+
+.back_icon img {
+	height: 3vh;
+	margin-left: 5vw;
+}
+
+.header_text {
+	text-align: center;
+	line-height: 0vh;
+	font-size: 2.54vh;
+	color: white;
+}
+
+.note {
+	width: 88vw;
+	background-image: url(/wx/image/mine/note_img_list_1@2x.png);
+	background-size: 88vw;
+	background-repeat: no-repeat;
+	height: 72.41vh;
+	margin-top: 7vh;
+	left: 5.8vw;
+	box-shadow: 1px 1px 18px #88888817;
+	z-index: 100;
+	position: absolute;
+}
+
+.note_header {
+	height: 23.23vh;
+	padding: 0 4.5vw;
+	padding-top: 2.5vh;
+}
+
+.toleft {
+	float: left;
+	line-height: 0;
+}
+
+.toright {
+	float: right;
+	line-height: 0;
+}
+
+.center_line {
+	margin: auto;
+	width: 1px;
+	height: 4.94vh;
+	background-color: #0000000f;
+}
+
+.price_div {
+	padding: 0vh 3vw;
+	height: 13.49vh;
+	border-bottom: 1px #0000000d dashed;
+}
+
+.price {
+	font-size: 3.5vh;
+	line-height: 0vh;
+}
+
+.note_body {
+	padding: 0 7vw;
+}
+
+.note_ul {
+	height: 8.37vh;
+	border-bottom: 1px #0000000d solid;
+	padding-top: 0.5vh;
+}
+
+.note_ul div {
+	width: 50%
+}
+
+.f_r p {
+	text-align: right;
+	font-style: 1.7vh
+}
+
+.note_text {
+	font-size: 1.7vh;
+	line-height: 4.7vh;
+}
+
+.more_btn {
+	text-align: center;
+	margin: auto;
+	height: 5.5vh;
+	width: 51vw;
+	line-height: 5.5vh;
+	border-radius: 2rem;
+	margin-top: 10vh;
+	color: white;
+}
+
+.note_next {
+	position: fixed;
+	top: 7vh;
+	left: 8vw;
+	width: 84vw;
+	background-size: 84vw;
+	opacity: 0.5;
+	z-index: 10;
+}
+
+.note_end {
+	position: absolute;
+	top: 5.8vh;
+	left: 9.5vw;
+	width: 81vw;
+	background-size: 81vw;
+	opacity: 0.5;
+	z-index: 0;
+}

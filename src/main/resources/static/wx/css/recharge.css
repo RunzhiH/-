@@ -1,0 +1,122 @@
+.body {
+	padding-top: 22vh;
+	padding-left: 3vw;
+	padding-right: 3vw;
+}
+
+.titel p {
+	font-size: 2vh;
+	line-height: 2vh;
+}
+
+.titel img {
+	float: left;
+	height: 2.3vh;
+	margin-right: 1.5vw;
+}
+
+.money_flag {
+	font-size: 3vh;
+	margin: 0 2.5vw;
+	color: #b938ef;
+}
+
+.input_div {
+	width: 94vw;
+	line-height: 6vh;
+	margin-bottom: 5vh;
+}
+
+.input_div input {
+	width: 71vw;
+}
+
+.input_all {
+	color: #59c4fd;
+}
+
+.color_line {
+	height: 1px;
+	width: 100%
+}
+
+.icon_div div {
+	height: 7.6vh;
+	margin: 6vh 0vw;
+	width: 13.6vw;
+}
+
+.payway_div {
+	height: 28vh;
+}
+
+.wx_icon {
+	margin-right: 25vw
+}
+
+.zfb_icon {
+	margin-left: 25vw
+}
+
+.icon_img {
+	background-repeat: no-repeat;
+	background-size: 13.6vw;
+}
+
+.zfb_icon_0 {
+	background-image: url("/wx/image/money/money_ic_zfb_0@2x.png");
+}
+
+.zfb_icon_1 {
+	background-image: url("/wx/image/money/money_ic_zfb_1@2x.png");
+}
+
+.wx_icon_0 {
+	background-image: url("/wx/image/money/money_ic_vx_0@2x.png");
+}
+
+.wx_icon_1 {
+	background-image: url("/wx/image/money/money_ic_vx_1@2x.png");
+}
+
+.sure_btn {
+	text-align: center;
+	width: 63.33vw;
+	margin: 0 auto;
+	height: 4.9vh;
+	line-height: 4.9vh;
+	color: white;
+	border-radius: 2rem;
+}
+
+.recharge_div {
+	height: 9vh;
+	margin-left: 3vw;
+	padding: 1px;
+	width: 27.33vw;
+	border-radius: 0.4rem;
+	background-color: #808080;
+}
+
+.recharge_price {
+	width: 100%;
+	background-color: white;
+	height: 100%;
+	border-radius: 0.4rem;
+	margin-top: -2vh;
+	text-align: center;
+	line-height: 9vh;
+}
+
+.recharge_price p {
+	font-size: 2vh;
+	color: #808080;
+}
+
+.checked {
+	background-image: linear-gradient(to right, #b938ef, #59c4fd);
+}
+
+.checked p {
+	color: #b938ef;
+}

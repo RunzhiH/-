@@ -5,11 +5,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -24,7 +24,6 @@ import com.example.demo.entity.ValidateCode;
 import com.example.demo.service.impl.UserServiceImpl;
 import com.example.demo.util.AliSMSUtil;
 import com.example.demo.util.DynamicCodeUtil;
-import com.example.demo.util.constants.SecurityConstants;
 import com.example.demo.util.generator.SmsCodeGenerator;
 
 @RestController
@@ -33,24 +32,26 @@ public class LoginController {
 	@Autowired
 	UserServiceImpl userServiceImpl;
 	@Autowired
-	private StringRedisTemplate template;
-	@Autowired
 	private SmsCodeGenerator smsCodeGenerator;
 
 	public static final String SESSION_KEY = "SESSION_KEY_IMAGE_CODE";
 	private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
-	@RequestMapping(value = "/registerByPhone", method = RequestMethod.POST)
-	public Map<String, Object> register(@RequestParam("phone") String phone, @RequestParam("password") String password,
-			@RequestParam("code") String code, @RequestParam("share_user_id") String share_user_id) {
+	@RequestMapping(value = "/registerByPhone")
+	public Map<String, Object> register(HttpServletRequest request) {
 		Map<String, Object> msg = new HashMap<String, Object>();
-		String Vcode = template.opsForValue().get(phone);
+		String phone =request.getParameter("phone");
+		String code =request.getParameter("code");
+		String share_user_id =request.getParameter("share_user_id");
+		String password =request.getParameter("password");
+		HttpSession httpSession = request.getSession();
+		String Vcode = String.valueOf(httpSession.getAttribute(phone));
 		if (!code.equals(Vcode)) {
 			msg.put("message", "验证码错误");
 			msg.put("status", 300);
 			return msg;
 		} else {
-			template.delete(phone);
+			httpSession.removeAttribute(phone);
 		}
 
 		Map<String, String> user = userServiceImpl.getUserByPhone(phone);
@@ -61,8 +62,9 @@ public class LoginController {
 		}
 		int num = userServiceImpl.addUser(phone, password, share_user_id);
 		if (num > 0) {
-			msg.put("message", "注册成功");
-			msg.put("status", 200);
+			 msg.put("message", "注册成功");
+			 msg.put("status", 200);
+
 		} else {
 			msg.put("message", "注册失败");
 			msg.put("status", 500);
@@ -97,13 +99,14 @@ public class LoginController {
 		Map<String, Object> msg = new HashMap<String, Object>();
 		String phone = request.getParameter("phone");
 		String code = request.getParameter("code");
-		String Vcode = template.opsForValue().get(phone);
+		HttpSession httpSession = request.getSession();
+		String Vcode = String.valueOf(httpSession.getAttribute(phone));
 		if (!code.equals(Vcode)) {
 			msg.put("message", "验证码错误");
 			msg.put("status", 300);
 			return msg;
 		} else {
-			template.delete(phone);
+			httpSession.removeAttribute(phone);
 		}
 		// 登录
 
@@ -140,19 +143,23 @@ public class LoginController {
 		}
 		String sendSmsResponse = "";
 		String code = "";
-		if (!template.hasKey(phone)) {
+		HttpSession httpSession = request.getSession();
+
+		if (httpSession.getAttribute(phone) == null) {
 
 			code = DynamicCodeUtil.generateCode(DynamicCodeUtil.TYPE_NUM_ONLY, 6, null);
 			// 加入缓存
-			template.opsForValue().set(phone, code);
+			httpSession.setAttribute(phone, code);
+			System.out.println(httpSession);
 		} else {
-			code = template.opsForValue().get(phone);// 根据key获取缓存中的val
+			code = String.valueOf(httpSession.getAttribute(phone));// 根据key获取缓存中的val
 
 			if (StringUtils.isBlank(code)) {
 				code = DynamicCodeUtil.generateCode(DynamicCodeUtil.TYPE_NUM_ONLY, 6, null);
-				template.opsForValue().set(phone, code);
+				httpSession.setAttribute(phone, code);
 			}
 		}
+		System.out.println(httpSession);
 		sendSmsResponse = AliSMSUtil.sendSmsByPost(phone, code);
 
 		JSONObject result = JSONObject.parseObject(sendSmsResponse);
@@ -172,13 +179,14 @@ public class LoginController {
 		String phone = request.getParameter("phone");
 		String pwd = request.getParameter("password");
 		Map<String, Object> msg = new HashMap<String, Object>();
-		String Vcode = template.opsForValue().get(phone);
+		HttpSession httpSession = request.getSession();
+		String Vcode = String.valueOf(httpSession.getAttribute(phone));
 		if (!code.equals(Vcode)) {
 			msg.put("message", "验证码错误");
 			msg.put("status", 300);
 			return msg;
 		} else {
-			template.delete(phone);
+			httpSession.removeAttribute(phone);
 		}
 		int num = userServiceImpl.updatePassword(phone, pwd);
 		if (num > 0) {
@@ -189,4 +197,17 @@ public class LoginController {
 		return msg;
 	}
 
+	@RequestMapping("redisterUpdatePassword")
+	public Map<String, Object> redisterUpdatePassword(HttpServletRequest request) {
+		String phone = request.getParameter("phone");
+		String password = request.getParameter("password");
+		int num = userServiceImpl.updatePassword(phone, password);
+		Map<String, Object> msg = new HashMap<String, Object>();
+		if (num > 0) {
+			msg.put("status", 200);
+		} else {
+			msg.put("status", 500);
+		}
+		return msg;
+	}
 }

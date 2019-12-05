@@ -14,12 +14,12 @@ import com.example.demo.util.token.SmsCodeAuthenticationToken;
 
 public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-	public static final String COREQI_FORM_MOBILE_KEY = "mobile";
+	public static final String COREQI_FORM_MOBILE_KEY = "phone";
 	private String mobileParameter = COREQI_FORM_MOBILE_KEY; // 请求中携带手机号的参数名称
 	private boolean postOnly = true; // 指定当前过滤器是否只处理POST请求
 
 	public SmsCodeAuthenticationFilter() {
-		super(new AntPathRequestMatcher("/authentication/mobile", "POST")); // 指定当前过滤器处理的请求
+		super(new AntPathRequestMatcher("/login/doLoginByPhone", "POST")); // 指定当前过滤器处理的请求
 	}
 
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)

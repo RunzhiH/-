@@ -1,0 +1,88 @@
+.login_photo_div {
+	top: 9.11vh;
+	left: 33.33vw;
+	position: relative;
+	width: 22vw;
+}
+
+.login_img {
+	width: 31vw;
+}
+
+.form_div {
+	top: 17.98vh;
+	position: relative;
+	left: 11vw;
+	width: 78.66vw;
+}
+
+.login_form {
+	box-shadow: 1px 1px 5px #8888883d;
+	height: 33.73vh;
+	width: 65.66vw;
+	background-color: white;
+	border-radius: 0.7rem;
+	padding-top: 0.05vh;
+	padding-left: 6.666vw;
+	padding-right: 6.666vw;
+}
+
+.login_form from {
+	width: 65.66vw;
+}
+
+.login_p {
+	font-size: 2.09vh;
+	line-height: 2vh;
+}
+
+.login_form .form_titel {
+	top: 1.87vh;
+	font-size: 2.14vh;
+	text-align: center;
+}
+
+.input_line {
+	border-bottom: 1px solid #b938ef;
+}
+
+.input_line input {
+	margin-bottom: 0.5rem;
+}
+
+.submit_div button {
+	position: relative;
+	top: 5vh;
+	height: 4.861vh;
+	width: 62.26vw;
+	background-image: url(/wx/image/register/register_btn_next@2x.png);
+	background-repeat: round;
+	border-radius: 2rem;
+	border: 0;
+	color: white;
+}
+
+.sendSMS {
+	width: 13.33vw;
+	border-radius: 2rem;
+	background-color: white;
+	border: 1px solid #b938ef;
+}
+
+.read_me {
+	bottom: 6vh;
+	position: fixed;
+	/* left: 27.33vw; */
+	width: 100%;
+	text-align: center
+}
+
+.eye {
+	float: right;
+	height: 2.9vh;
+	margin-right: 3vw;
+}
+
+.password {
+	letter-spacing: 4px;
+}

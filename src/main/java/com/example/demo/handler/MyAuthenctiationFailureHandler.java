@@ -32,7 +32,7 @@ public class MyAuthenctiationFailureHandler extends SimpleUrlAuthenticationFailu
 
 		response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 		response.setContentType("application/json;charset=UTF-8");
-		String url = "/login.html";
+		String url = "/wx/html/login.html";
 		response.sendRedirect(url + "?" + exception.getMessage());
 	}
 }

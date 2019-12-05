@@ -285,4 +285,23 @@
       pay_way = #{payWay,jdbcType=INTEGER}
     where record_id = #{recordId,jdbcType=VARCHAR}
   </update>
+  	<select id="getRechargeRecordList" parameterType="String" resultType="Map">
+  	 	SELECT 
+		  *,
+		  DATE_FORMAT(create_time, '%Y%m%d') create_time_str 
+		FROM
+		  `recharge_record` 
+		WHERE user_id = #{user_id} 
+		  AND status = 1 
+		  AND DATE_FORMAT(create_time, '%Y%m') = #{month}     
+  	</select>
+  	<select id="getRechargeRrcordTotal" parameterType="String" resultType="Map">
+  		SELECT 
+		  IFNULL(SUM(rmb),0) total_price
+		FROM
+		  `recharge_record` 
+		WHERE user_id = #{user_id} 
+		  AND status = 1 
+		  AND DATE_FORMAT(create_time, '%Y%m') = #{month} 
+  	</select>
 </mapper>

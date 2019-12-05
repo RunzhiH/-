@@ -15,4 +15,10 @@ public interface WalletService {
 
 	int updateWalletByWithdrawal(String record_id);
 
+	int withdrawalToAccount(String record_id);
+
+	List<Map<String, String>> getDrawlRcord(Map<String, String> param);
+
+	Map<String, String> getDrawlRrcordTotal(Map<String, String> param);
+
 }

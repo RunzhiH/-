@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.demo.dao.RechargeRecordMapper;
 import com.example.demo.dao.SysParamMapper;
 import com.example.demo.entity.RechargeRecord;
@@ -37,13 +38,46 @@ public class PayController {
 	private PayServiceImpl payServiceImpl;
 	@Autowired
 	private UserServiceImpl userServiceImpl;
+//
+//	@RequestMapping("addRechargeRecord")
+//	public Map<String, Object> addRechargeRecord() {
+//		// 获取当前用户
+//		String phone = userServiceImpl.getCurrentUser();
+//		Map<String, String> user_info = userServiceImpl.getUserByPhone(phone);
+//		String user_id = user_info.get("user_id");
+//		// 获取系统参数
+//		String sysParam_id = PropertyUtil.getProperty("sysParam_id");
+//		SysParam sys_param = sysParamMapper.selectByPrimaryKey(sysParam_id);
+//
+//		RechargeRecord record = new RechargeRecord();
+//		String record_id = DynamicCodeUtil.generateCode(DynamicCodeUtil.TYPE_ALL_MIXED, 32, null);
+//		record.setRecordId(record_id);
+//		record.setCreateTime(new Date());
+//		record.setRmb(sys_param.getPayPrice());
+//		record.setStatus(0);
+//		record.setUserId(user_id);
+//		int num = rechargeRecordMapper.insertSelective(record);
+//		Map<String, Object> msg = new HashMap<String, Object>();
+//		if (num > 0) {
+//			msg.put("message", "成功");
+//			msg.put("status", 200);
+//		} else {
+//			msg.put("message", "失败");
+//			msg.put("status", 500);
+//		}
+//		return msg;
+//	}
 
-	@RequestMapping("addRechargeRecord")
-	public Map<String, Object> addRechargeRecord() {
-		//获取当前用户
+	@RequestMapping("payRecharge")
+	public ModelAndView payRecharge(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Map<String, Object> msg = new HashMap<String, Object>();
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("");// callback view
+		// String record_id = request.getParameter("record_id");
+		// 获取当前用户
 		String phone = userServiceImpl.getCurrentUser();
-		Map<String, String> user_info=userServiceImpl.getUserByPhone(phone);
-		String user_id=user_info.get("user_id");
+		Map<String, String> user_info = userServiceImpl.getUserByPhone(phone);
+		String user_id = user_info.get("user_id");
 		// 获取系统参数
 		String sysParam_id = PropertyUtil.getProperty("sysParam_id");
 		SysParam sys_param = sysParamMapper.selectByPrimaryKey(sysParam_id);
@@ -56,49 +90,43 @@ public class PayController {
 		record.setStatus(0);
 		record.setUserId(user_id);
 		int num = rechargeRecordMapper.insertSelective(record);
-		Map<String, Object> msg = new HashMap<String, Object>();
 		if (num > 0) {
-			msg.put("message", "成功");
-			msg.put("status", 200);
-		} else {
-			msg.put("message", "失败");
-			msg.put("status", 500);
-		}
-		return msg;
-	}
 
-	@RequestMapping("payRecharge")
-	public ModelAndView payRecharge(HttpServletRequest request,HttpServletResponse response) throws Exception {
-		Map<String, Object> msg = new HashMap<String, Object>();
-		String record_id=request.getParameter("record_id");
-		String pay_way=request.getParameter("pay_way");
-		RechargeRecord record = rechargeServiceImpl.getRechargeRecordInfo(record_id);
-		if (record == null || StringUtils.isBlank(record.getRecordId())) {
-			msg.put("message", "充值错误");
-			msg.put("status", 500);
-			return new ModelAndView("");//重新发起支付页
+			String pay_way = request.getParameter("pay_way");
+			RechargeRecord rechargeRecord = rechargeServiceImpl.getRechargeRecordInfo(record_id);
+			if (rechargeRecord == null || StringUtils.isBlank(rechargeRecord.getRecordId())) {
+				modelAndView.addObject("message", "充值错误");
+				modelAndView.addObject("status", "fail");
+				modelAndView.setViewName("");// 重新发起支付页
+				return modelAndView;
+			}
+			String order_no = rechargeRecord.getRecordId();
+			BigDecimal amount = rechargeRecord.getRmb();
+			String subject = "充值" + rechargeRecord.getRmb() + "会员";
+			String wap_name = "充值";
+			String notify_url = "";
+			
+			// 修改状态为支付中
+			rechargeRecord.setStatus(2);
+			rechargeRecordMapper.updateByPrimaryKeySelective(rechargeRecord);
+			// 修改状态为支付中
+			JSONObject result = new JSONObject();
+			if ("1".equals(pay_way)) {
+				// 支付宝支付
+				notify_url = "/payNotify/aliRechargeNotify";
+				result = payServiceImpl.createAlipay(order_no, amount, notify_url, subject, wap_name, response,
+						request);
+			} else if ("2".equals(pay_way)) {
+				// 微信支付
+				notify_url = "/payNotify/wxRechargeNotify";
+				result = payServiceImpl.createWxPay(order_no, amount, notify_url, subject, wap_name, response, request);
+			}
+			modelAndView.addAllObjects(result);
+			return modelAndView;
+		} else {
+
 		}
-		String order_no= record.getRecordId();
-		BigDecimal amount=record.getRmb();
-		String subject= "充值"+record.getRmb()+"会员";
-		String wap_name="充值";
-		String notify_url = "";
-		ModelAndView modelAndView= new ModelAndView();
-		
-		//修改状态为支付中
-		record.setStatus(2);
-		rechargeRecordMapper.updateByPrimaryKeySelective(record);
-		//修改状态为支付中
-		if ("1".equals(pay_way)) {
-			// 支付宝支付
-			notify_url="/payNotify/aliRechargeNotify";
-			modelAndView=payServiceImpl.createAlipay(order_no, amount, notify_url, subject, wap_name, response, request);
-		} else if ("2".equals(pay_way)) {
-			// 微信支付
-			notify_url="/payNotify/wxRechargeNotify";
-			modelAndView=payServiceImpl.createWxPay(order_no, amount, notify_url, subject, wap_name, response, request);
-		}
-		return modelAndView;
+		return null;
 	}
 
 }

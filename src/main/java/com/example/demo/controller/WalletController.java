@@ -67,4 +67,34 @@ public class WalletController {
 		}
 		return msg;
 	}
+
+	@RequestMapping("getDrawlRcord")
+	public Map<String, Object> getDrawlRcord(HttpServletRequest request) {
+		String phone = userServiceImpl.getCurrentUser();
+		Map<String, String> user_info = userServiceImpl.getUserByPhone(phone);
+		String user_id = user_info.get("user_id");
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("month", request.getParameter("month"));
+		param.put("user_id", user_id);
+		List<Map<String, String>> list = walletServiceImpl.getDrawlRcord(param);
+		Map<String, Object> msg = new HashMap<String, Object>();
+		msg.put("context", list);
+		msg.put("status", 200);
+		return msg;
+	}
+
+	@RequestMapping("getDrawlRrcordTotal")
+	public Map<String, Object> getDrawlRrcordTotal(HttpServletRequest request) {
+		String phone = userServiceImpl.getCurrentUser();
+		Map<String, String> user_info = userServiceImpl.getUserByPhone(phone);
+		String user_id = user_info.get("user_id");
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("month", request.getParameter("month"));
+		param.put("user_id", user_id);
+		Map<String, String> map = walletServiceImpl.getDrawlRrcordTotal(param);
+		Map<String, Object> msg = new HashMap<String, Object>();
+		msg.put("context", map);
+		msg.put("status", 200);
+		return msg;
+	}
 }

@@ -87,14 +87,16 @@ public class AliSMSUtil {
 		// 短信下发
 		String sendUrl = "http://smssh1.253.com/msg/send/json";
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("account", "N5018613");// API账号
-		map.put("password", "b547XdcgZ");// API密码
-		map.put("msg", "你登录验证码是{" + code + "}，请勿泄露。【睿赢】");// 短信内容
+		// map.put("account", "N5018613");// API账号
+		// map.put("password", "b547XdcgZ");// API密码
+		map.put("account", "YZM6766000");// API账号
+		map.put("password", "m391RzbpoY34ac");// API密码
+		map.put("msg", "您的验证码为" + code + "请在分钟内输入。感谢您对的支持，祝您生活愉快！");// 短信内容
 		map.put("phone", phone);// 手机号
 		map.put("report", "true");// 是否需要状态报告
-		map.put("extend", "186211");// 自定义扩展码
+//		map.put("extend", "186211");// 自定义扩展码
+		map.put("extend", "241220");
 		JSONObject js = (JSONObject) JSONObject.toJSON(map);
-		
 
 		URL url = null;
 		try {

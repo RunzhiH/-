@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<title>充值</title>
+<link rel="stylesheet" type="text/css" href="/wx/css/base.css">
+<link rel="stylesheet" type="text/css" href="/wx/css/recharge.css">
+</head>
+<body>
+	<div class="backgroup_small">
+		<div class="header">
+			<div class="back_icon" onclick="goBack()">
+				<img alt="" src="/wx/image/mine/mine_ic_back_black@2x.png">
+			</div>
+		</div>
+		<div class="body">
+			<div>
+				<div class="titel">
+					<img alt="" src="/wx/image/money/money_ic_vertical@2x.png">
+					<p>充值服务</p>
+				</div>
+				<div class="input_div">
+					<div class="recharge_div checked" onclick="checked_price(this)">
+						<div class="recharge_price">
+							<p>￥1980.00</p>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+			<div class="payway_div">
+				<div class="titel">
+					<img alt="" src="/wx/image/money/money_ic_vertical@2x.png">
+					<p>支付方式</p>
+				</div>
+
+				<div class="zfb_icon icon_div f_l">
+					<div class="icon_img zfb_icon_0 " mark="zfb_icon_" pay_way="1"
+						flag="0" alt="" onclick="choosePayWay(this)"></div>
+				</div>
+				<div class="wx_icon icon_div f_r">
+					<div class="icon_img wx_icon_0" mark="wx_icon_" pay_way="2"
+						flag="0" alt="" onclick="choosePayWay(this)"></div>
+				</div>
+			</div>
+			<div class="sure_btn backgroud_gradient" onclick="sure_recharge()">
+				<p>确认充值</p>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="/Plugin/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="/wx/js/common.js"></script>
+<script type="text/javascript" src=""></script>
+<script type="text/javascript">
+	function sure_recharge() {
+		var icon = $(".icon_img");
+		var pay_way = 0;
+		for (var i = 0; i < icon.length; i++) {
+			if (1 == $(icon[i]).attr("flag")) {
+				pay_way = $(icon[i]).attr("pay_way");
+				break;
+			}
+		}
+		if (pay_way != 0) {
+			$.ajax({
+				url : "/pay/payRecharge",
+				data : {
+					pay_way : pay_way
+				},
+				success : function(res) {
+					//alert(res);
+				},
+				error : function(xhr) {
+					alert(xhr.message);
+				}
+			});
+		} else {
+			alert("选择支付方式");
+		}
+	}
+
+	function choosePayWay(e) {
+		var flag = $(e).attr("flag");
+		var mark = $(e).attr("mark");
+		var img = $(".icon_img");
+		for (var i = 0; i < img.length; i++) {
+			$(img[i]).removeClass(
+					$(img[i]).attr("mark") + $(img[i]).attr("flag"));
+			$(img[i]).addClass($(img[i]).attr("mark") + "0");
+			$(img[i]).attr("flag", "0");
+		}
+		$(e).removeClass(mark + flag);
+		if (0 == flag) {
+			$(e).attr("flag", "1");
+			flag = 1;
+		} else {
+			$(e).attr("flag", "0");
+			flag = 0;
+		}
+		$(e).addClass(mark + flag);
+	}
+	function checked_price(e) {
+		$(e).parent().children().removeClass("checked");
+		$(e).addClass("checked");
+	}
+</script>
+</html>

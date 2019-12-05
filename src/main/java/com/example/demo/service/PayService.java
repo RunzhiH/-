@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSONObject;
+
 public interface PayService {
 	/**
 	 * 支付宝支付
@@ -22,7 +24,7 @@ public interface PayService {
 	 * @return
 	 * @throws Exception
 	 */
-	ModelAndView createAlipay(String order_no, BigDecimal amount, String alipayNotify, String subject, String wap_name,
+	JSONObject createAlipay(String order_no, BigDecimal amount, String alipayNotify, String subject, String wap_name,
 			HttpServletResponse response, HttpServletRequest request) throws Exception;
 
 	/**
@@ -38,7 +40,7 @@ public interface PayService {
 	 * @return
 	 * @throws Exception
 	 */
-	ModelAndView createWxPay(String order_no, BigDecimal amount, String wxPayNotify, String subject, String wap_name,
+	JSONObject createWxPay(String order_no, BigDecimal amount, String wxPayNotify, String subject, String wap_name,
 			HttpServletResponse response, HttpServletRequest request) throws Exception;
 
 	/**

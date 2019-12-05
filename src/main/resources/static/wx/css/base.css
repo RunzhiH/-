@@ -1,0 +1,57 @@
+body {
+	margin: 0 0;
+}
+
+.p_color {
+	color: #b938ef
+}
+
+input {
+	border: 0;
+}
+
+p {
+	font-size: 1.5vh;
+}
+
+.back_icon {
+	height: 3vh;
+	float: left;
+	position: absolute;
+	margin-top: 1.3vh;
+}
+
+.back_icon img {
+	height: 3vh;
+	margin-left: 5vw;
+}
+
+.backgroud_img {
+	width: 100%;
+}
+
+.backgroup_small {
+	background-image: url("/wx/image/money/money_img_bg@2x.png");
+	height: 100vh;
+	background-size: 100vw;
+	background-repeat: no-repeat;
+}
+
+.backgroud {
+	background-image: url("/wx/image/register/register_img_bg@2x.png");
+	background-size: auto 40.7vh;
+	background-repeat: no-repeat;
+	height: 100vh;
+}
+
+.backgroud_gradient {
+	background-image: linear-gradient(to right, #b938ef, #59c4fd);
+}
+
+.f_l {
+	float: left;
+}
+
+.f_r {
+	float: right;
+}

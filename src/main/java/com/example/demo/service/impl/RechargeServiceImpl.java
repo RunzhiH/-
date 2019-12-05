@@ -1,5 +1,8 @@
 package com.example.demo.service.impl;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,6 +72,16 @@ public class RechargeServiceImpl implements RechargeService {
 		if (num > 0) {
 			walletMapper.updateWalletByRecharge(change_record_id);
 		}
+	}
+	@Override
+	public List<Map<String, String>> getRechargeRecordList(Map<String, String> param) {
+		
+		return RechargeRecordMapper.getRechargeRecordList(param);
+	}
+	@Override
+	public Map<String, String> getRechargeRrcordTotal(Map<String, String> param) {
+		// TODO Auto-generated method stub
+		return RechargeRecordMapper.getRechargeRrcordTotal(param);
 	}
 
 }
