@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,18 +51,21 @@ public class WalletController {
 	}
 
 	@RequestMapping("doWithdrawal")
-	public Map<String, Object> doWithdrawal(String rmb, String record_type) {
+	public Map<String, Object> doWithdrawal(@PathParam("rmb") String rmb, @PathParam("record_type") String record_type,
+			@PathParam("account") String account) {
+
 		String phone = userServiceImpl.getCurrentUser();
 		Map<String, String> user_info = userServiceImpl.getUserByPhone(phone);
 		String user_id = user_info.get("user_id");
 		Map<String, Object> msg = new HashMap<String, Object>();
 		// 插入提现记录
 		String record_id = DynamicCodeUtil.generateCode(DynamicCodeUtil.TYPE_ALL_MIXED, 32, null);
-		int num = walletServiceImpl.insertWithdrawalRecord(record_id, user_id, rmb, record_type);
+		int num = walletServiceImpl.insertWithdrawalRecord(record_id, user_id, rmb, record_type,account);
 		if (num > 0) {
 			// 提现到账户
-			walletServiceImpl.withdrawalToAccount(record_id);
-
+			//walletServiceImpl.withdrawalToAccount(record_id);
+			msg.put("status", 200);
+			msg.put("message", "申请成功");
 		} else {
 			msg.put("status", 500);
 			msg.put("message", "余额不足");
@@ -92,6 +97,18 @@ public class WalletController {
 		param.put("month", request.getParameter("month"));
 		param.put("user_id", user_id);
 		Map<String, String> map = walletServiceImpl.getDrawlRrcordTotal(param);
+		Map<String, Object> msg = new HashMap<String, Object>();
+		msg.put("context", map);
+		msg.put("status", 200);
+		return msg;
+	}
+
+	@RequestMapping("getUserIncome")
+	public Map<String, Object> getUserIncome(HttpServletRequest request) {
+		String phone = userServiceImpl.getCurrentUser();
+		Map<String, String> user_info = userServiceImpl.getUserByPhone(phone);
+		String user_id = user_info.get("user_id");
+		Map<String, String> map = walletServiceImpl.getUserIncome(user_id);
 		Map<String, Object> msg = new HashMap<String, Object>();
 		msg.put("context", map);
 		msg.put("status", 200);

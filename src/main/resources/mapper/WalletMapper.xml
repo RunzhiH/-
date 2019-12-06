@@ -313,7 +313,8 @@
 		  `wallet` a,
 		  `wallet_change_record` b 
 		SET
-		  a.`balance` = a.`balance` + b.`change_rmb`
+		  a.`balance` = a.`balance` + b.`change_rmb`,
+		  a.rmb = a.rmb-b.`change_rmb`
 		WHERE a.`user_id` = b.`user_id` 
 	</update>
 	<update id="updateWalletByWithdrawal" parameterType="String">

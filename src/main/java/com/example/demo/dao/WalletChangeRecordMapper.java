@@ -90,4 +90,6 @@ public interface WalletChangeRecordMapper {
 	List<Map<String, String>> getDrawlRcord(Map<String, String> param);
 
 	Map<String, String> getDrawlRrcordTotal(Map<String, String> param);
+
+	Map<String, String> getUserIncome(String user_id);
 }

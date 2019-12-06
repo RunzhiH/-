@@ -4,6 +4,9 @@ function goto(url){
 function goBack(){
 	history.back(-1);
 }
+function goBackMine(){
+	window.location.href="/wx/html/mine.html";
+}
 /**
  * 获取指定的URL参数值 URL:http://www.quwan.com/index?name=tyler 参数：paramName URL参数
  * 调用方法:getParam("name") 返回值:tyler

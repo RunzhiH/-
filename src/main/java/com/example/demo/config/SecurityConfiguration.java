@@ -43,8 +43,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		ValidateCodeFilter smsCodeFilter = new ValidateCodeFilter();
 
 		http.authorizeRequests()// 定义哪些URL需要被保护、哪些不需要被保护
-				.antMatchers("/login.html", "/login/*", "/loginByphone.html", "/login", "/code/*", "/test/**","/wx/**","/Plugin/**").permitAll()
-				.anyRequest()// 任何请求,登录后可以访问
+				.antMatchers("/login.html", "/login/*", "/loginByphone.html", "/login", "/code/*", "/test/**",
+						"/wx/css/**", "/wx/js/**", "/wx/image/**", "/wx/html/login.html", "/wx/html/loginBypwd.html","/wx/html/resiter.html","/wx/html/forgotPwd.html","/wx/html/suerpwd.html",
+						"/Plugin/**")
+				.permitAll().anyRequest()// 任何请求,登录后可以访问
+				
 				.authenticated().and().addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class) // 加载用户名密码过滤器的前面
 				.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class) // 加载用户名密码过滤器的前面
 				// 定义哪些URL需要被保护、哪些不需要被保护
@@ -52,7 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.loginProcessingUrl("/login/doLogin").successHandler(successHandler) // 自定义登录成功处理
 				.failureHandler(failureHandler).permitAll()
 				// 以下短信登录认证的配置
-				.and().apply(smsCodeAuthenticationSecurityConfig).and().logout().logoutSuccessUrl("/login/loginOut")
+				.and().apply(smsCodeAuthenticationSecurityConfig).and().logout().logoutSuccessUrl("/wx/html/login.html").logoutUrl("/login/loginOut")
 				.and().csrf().disable();
 
 	}

@@ -51,9 +51,9 @@ public class WalletServiceImpl implements WalletService {
 	}
 
 	@Override
-	public int insertWithdrawalRecord(String record_id, String user_id, String rmb, String record_type) {
+	public int insertWithdrawalRecord(String record_id, String user_id, String rmb, String record_type, String account) {
 		// TODO Auto-generated method stub
-		return withdrawalRecordMapper.insertWithdrawalRecord(record_id, user_id, rmb, record_type);
+		return withdrawalRecordMapper.insertWithdrawalRecord(record_id, user_id, rmb, record_type,account);
 	}
 
 	@Override
@@ -109,6 +109,11 @@ public class WalletServiceImpl implements WalletService {
 	public Map<String, String> getDrawlRrcordTotal(Map<String, String> param) {
 		// TODO Auto-generated method stub
 		return walletChangeRecordMapper.getDrawlRrcordTotal(param);
+	}
+	@Override
+	public Map<String, String> getUserIncome(String user_id) {
+		// TODO Auto-generated method stub
+		return walletChangeRecordMapper.getUserIncome(user_id);
 	}
 
 }

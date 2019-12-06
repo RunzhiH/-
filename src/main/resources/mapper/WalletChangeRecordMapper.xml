@@ -457,9 +457,18 @@
   	<select id="getDrawlRrcordTotal" parameterType="String" resultType="Map">
   		SELECT 
 		  IFNULL(SUM(rmb),0) total_price
+		FROM
 		  `withdrawal_record` 
 		WHERE user_id = #{user_id} 
 		   AND record_status IN (1,2) 
 		  AND DATE_FORMAT(create_time, '%Y%m') = #{month} 
   	</select>
+  <select id="getUserIncome" parameterType="String" resultType="Map">
+  	SELECT 
+	  IFNULL(SUM(change_rmb), 0) income 
+	FROM
+	  `wallet_change_record` 
+	WHERE user_id = #{user_id}
+	  AND record_type = 2 
+  </select>
 </mapper>

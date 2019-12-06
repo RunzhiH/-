@@ -18,22 +18,22 @@
 		</div>
 		<div class="header_photo">
 			<img class="f_l" alt="" src="/wx/image/mine/mine_ic_girl@2x.png"><span
-				class="user_name">张琳</span>
+				class="user_name" id="user_name">张琳</span>
 		</div>
 		<div class="balance_panel">
 			<div class="">
 				<div class="balance_div">
 					<p>账户余额(元)</p>
-					<p class="balance">121212.25</p>
+					<p class="balance" id="balance">121212.25</p>
 				</div>
 				<div class="total_div">
 					<div class="f_l total">
 						<p class="total_header">累计收益(元)</p>
-						<p class="total_balance">121212.25</p>
+						<p class="total_balance" id="income">121212.25</p>
 					</div>
 					<div class="f_r total">
 						<p class="total_header">未返金额(元)</p>
-						<p class="total_balance">121212.25</p>
+						<p class="total_balance" id="rmb">121212.25</p>
 					</div>
 				</div>
 			</div>
@@ -43,7 +43,7 @@
 					充值
 				</div>
 				<div class="f_r" style="padding-right: 13vw;"
-					onclick="goto('/wx/html/drawlRecord.html')">
+					onclick="goto('/wx/html/drawl.html')">
 					<img class="f_l" alt="" src="/wx/image/mine/mine_ic_tixian@2x.png">
 					提现
 				</div>
@@ -63,9 +63,58 @@
 				<img alt="" src="/wx/image/mine/mine_ic_fxjl@2x.png">
 				<p>分享奖励</p>
 			</div>
+			<div class="f_l menu" onclick="goto('/login/loginOut')">
+				<img alt="" src="/wx/image/mine/mine_ic_logout@2x.png">
+				<p>退出登录</p>
+			</div>
 		</div>
 	</div>
 </body>
 <script type="text/javascript" src="/Plugin/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="/wx/js/common.js"></script>
+<script type="text/javascript">
+	$(function(){
+		getBalence();
+		getUserInfo();
+		getIncome();
+	})
+	function getUserInfo(){
+		$.ajax({
+			url:"/user/getUserInfo",
+			success : function(res){
+				if(res.status==200){
+					var user_info= res.context;
+					$("#user_name").text(user_info.phone);
+					if(!user_info.password){
+						
+						window.location.href="/wx/html/surepwd.html?phone="+user_info.phone
+					}
+				}
+			}
+		})
+	}
+	function getBalence(){
+		$.ajax({
+			url:"/wallet/getWalletInfo",
+			success : function(res){
+				if(res.status==200){
+					var wallet= res.context;
+					$("#balance").text(wallet.balance);
+					$("#rmb").text(wallet.rmb);
+				}
+			}
+		})
+	}
+	function getIncome(){
+		$.ajax({
+			url:"/wallet/getUserIncome",
+			success : function(res){
+				if(res.status==200){
+					var wallet= res.context;
+					$("#income").text(wallet.income);
+				}
+			}
+		})
+	}
+</script>
 </html>

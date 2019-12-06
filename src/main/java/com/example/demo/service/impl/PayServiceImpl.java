@@ -99,7 +99,7 @@ public class PayServiceImpl implements PayService {
 				+ wap_name + "\"}}";// 我这里是网页入口，app入口参考文档的安卓和ios写法
 		String tradeType = "MWEB";// H5支付标记
 		JSONObject result = new JSONObject();
-		String total_amount = String.valueOf(amount.multiply(new BigDecimal(1000)));// 支付金额
+		String total_amount = String.valueOf(amount.multiply(new BigDecimal(100)));// 支付金额
 		// 金额转化为分为单位 微信支付以分为单位
 		String out_trade_no = order_no;
 		// 随机数
@@ -136,7 +136,7 @@ public class PayServiceImpl implements PayService {
 		Map<String, String> map = new HashMap<String, String>();
 		try {
 			// 预下单 获取接口地址
-			String pay_result = PayUtil.httpRequest(createOrderURL, "post", xml);
+			String pay_result = PayUtil.httpRequest(createOrderURL, "POST", xml);
 			map = PayUtil.xmlToMap(pay_result);
 			String return_code = (String) map.get("return_code");
 			String return_msg = (String) map.get("return_msg");

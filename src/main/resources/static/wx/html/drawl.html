@@ -11,7 +11,7 @@
 <body>
 	<div class="backgroup_small">
 		<div class="header">
-			<div class="back_icon" onclick="goBack()">
+			<div class="back_icon" onclick="goBackMine()">
 				<img alt="" src="/wx/image/mine/mine_ic_back_black@2x.png">
 			</div>
 		</div>
@@ -23,8 +23,12 @@
 				</div>
 				<div class="input_div">
 					<span class="money_flag">￥</span><input type="text"
-						placeholder="请输入提现金额"><span class="input_all">全部</span>
+						placeholder="请输入提现金额" id="drawl_rmb"><span
+						class="input_all" id="input_all">全部</span>
 					<div class="color_line backgroud_gradient"></div>
+					<p>
+						可提现金额:<span id="balance">1112</span>元
+					</p>
 				</div>
 
 
@@ -43,8 +47,12 @@
 					<div class="icon_img wx_icon_0" mark="wx_icon_" pay_way="2"
 						flag="0" alt="" onclick="choosePayWay(this)"></div>
 				</div>
+				<div class="account_div">
+					<input type="text" placeholder="请输入到账账号" id="account"
+						name="account" style="display: none">
+				</div>
 			</div>
-			<div class="sure_btn backgroud_gradient">
+			<div class="sure_btn backgroud_gradient" onclick="doDrawl()">
 				<p>确认提现</p>
 			</div>
 		</div>
@@ -52,26 +60,14 @@
 </body>
 <script type="text/javascript" src="/Plugin/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="/wx/js/common.js"></script>
+<script type="text/javascript" src="/wx/js/drawl.js"></script>
 <script type="text/javascript">
-	function choosePayWay(e) {
-		var flag = $(e).attr("flag");
-		var mark = $(e).attr("mark");
-		var img = $(".icon_img");
-		for (var i = 0; i < img.length; i++) {
-			$(img[i]).removeClass(
-					$(img[i]).attr("mark") + $(img[i]).attr("flag"));
-			$(img[i]).addClass($(img[i]).attr("mark") + "0");
-			$(img[i]).attr("flag", "0");
-		}
-		$(e).removeClass(mark + flag);
-		if (0 == flag) {
-			$(e).attr("flag", "1");
-			flag = 1;
-		} else {
-			$(e).attr("flag", "0");
-			flag = 0;
-		}
-		$(e).addClass(mark + flag);
-	}
+	$(function() {
+		getBalence();
+		$("#input_all").click(function(){
+			$("#drawl_rmb").val($("#balance").text());
+		
+		});
+	})
 </script>
 </html>

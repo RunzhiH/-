@@ -30,6 +30,6 @@
 		</javaClientGenerator>
 		
 		
-		<table tableName="user_info"></table>
+		<table tableName="withdrawal_record"></table>
 	</context>
 </generatorConfiguration>

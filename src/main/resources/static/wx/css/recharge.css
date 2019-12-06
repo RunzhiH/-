@@ -120,3 +120,15 @@
 .checked p {
 	color: #b938ef;
 }
+
+.account_div {
+	text-align: center;
+}
+
+.account_div input {
+	border-color: gray;
+	border-width: 1px;
+	border-style: solid;
+	height: 3.3vh;
+	border-radius: 0.6rem;
+}
